@@ -9,7 +9,7 @@ type Coupon struct {
 
 	Code string `json:"code"`
 
-	Discount_coupon int `json:"discount_coupon"`
+	Discount int `json:"discount"`
 
 	// Coupon เป็น 1 ต่อหลายกับ Receipt
 

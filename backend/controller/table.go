@@ -7,13 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetTablebyID(c *gin.Context){
-	var Table []entity.Table
+func GetTables(c *gin.Context){
+	var Tables []entity.Table
 	db := config.DB()
-	db.Find(&Table)
-	if db.Error != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": db.Error.Error()})
+	
+	results := db.Preload("TableStatus").Find(&Tables)
+	if results.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
         return
     }
-	c.JSON(http.StatusOK, &Table)
+	c.JSON(http.StatusOK, &Tables)
 }

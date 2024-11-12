@@ -102,3 +102,13 @@
 .confirm-button:active, .cancel-button:active {
     transform: scale(0.95);
 }
+
+.centered-input {
+  text-align: center; /* จัดข้อความให้อยู่กลางภายใน Input */
+  font-size: 16px;
+}
+
+.custom-form .ant-form-item-label > label {
+  font-size: 18px; /* ปรับขนาดตัวอักษร */
+  text-align: center; /* จัดตำแหน่งตรงกลาง */
+}

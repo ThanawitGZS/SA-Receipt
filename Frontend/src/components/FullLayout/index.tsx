@@ -13,7 +13,6 @@ import Sider from "../Sider/sider";
 import Receipt from "../Pages/Receipt/receipt";
 import Pay from "../Pages/Receipt/Pay/pay";
 
-
 const {Content} = Layout;
 
 
@@ -30,17 +29,17 @@ const FullLayout: React.FC = () => {
   return (
     <>
     {contextHolder}
-    <Layout style={{ minHeight: "100vh"}}>
+    <Layout style={{ minHeight: "100vh", maxHeight:"100vh"}}>
       <Sider />
-      <Layout> 
-        <Content style={{ margin: "0 16px" }}>
+
+      <Layout style={{backgroundColor:"#FEFFD2", minHeight: "100vh", maxHeight:"100vh"}}> 
+        <Content style={{ margin: "0 30px" }}>
           <Breadcrumb style={{ margin: "16px 0" }} />
           <div
             style={{
               padding: 24,
               minHeight: "93%",
               background: colorBgContainer,
-              display:'flex'
             }}
           >
             <Routes>
@@ -52,11 +51,12 @@ const FullLayout: React.FC = () => {
               <Route path="/employee/create" element={<EmployeeCreate />} />
               <Route path="/employee/edit/:id" element={<EmployeeEdit />} />
               <Route path="/receipt" element={<Receipt />} />
-              <Route path="/receipt/pay" element={<Pay />} />
+//            <Route path="/receipt/pay" element={<Pay />} />
             </Routes>
           </div>
         </Content>
       </Layout>
+
     </Layout>
   </>
   );

@@ -2,6 +2,7 @@ import { EmployeeInterface } from "../../interfaces/Employee";
 import { LoginInterface } from "../../interfaces/Login";
 import { MemberInterface } from "../../interfaces/Member";
 import axios from "axios";
+import { ReceiptInterface } from "../../interfaces/Receipt";
 
 const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
@@ -89,6 +90,13 @@ async function DeleteMemberByID(id: string | undefined) {
     .delete(`${apiUrl}/member/${id}`, requestOptions)
     .then((res) => res)
     .catch((e) => e.response);
+  }
+  
+async function CheckMembers(phonenumber: string) {
+  return await axios
+  .post(`${apiUrl}/api/check-member/${phonenumber}`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
 }
 
 async function GetGenders() {
@@ -107,7 +115,7 @@ async function GetPositions() {
 
 async function GetRanks() {
   return await axios
-    .get(`${apiUrl}/ranks`, requestOptions)
+  .get(`${apiUrl}/ranks`, requestOptions)
     .then((res) => res)
     .catch((e) => e.response);
 }
@@ -119,12 +127,34 @@ async function GetReceipts() {
   .catch((e) => e.response);
 }
 
-async function GetTablebyIDs() {
+async function CreateReceipt(data: ReceiptInterface) {
+  return await axios
+    .post(`${apiUrl}/receipt`, data, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetTablebys() {
   return await axios
   .get(`${apiUrl}/table`, requestOptions)
   .then((res) => res)
   .catch((e) => e.response);
 }
+
+async function GetBookingByID(id: string) {
+  return await axios
+  .get(`${apiUrl}/booking/${id}`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+}
+
+async function CheckCoupons(code: string) {
+  return await axios
+  .post(`${apiUrl}/api/check-coupon/${code}`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+}
+
 
 export {
   SignIn,
@@ -136,11 +166,15 @@ export {
   CreateMember,
   GetMembers,
   GetMemberByID,
+  CheckMembers,
   UpdateMember,
   DeleteMemberByID,
   GetGenders,
   GetPositions,
   GetRanks,
   GetReceipts,
-  GetTablebyIDs
+  CreateReceipt,
+  GetTablebys,
+  GetBookingByID,
+  CheckCoupons
 };

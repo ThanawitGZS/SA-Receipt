@@ -36,6 +36,7 @@ func main() {
 
        // Member Routes
        r.POST("/member", controller.CreateMember)
+       r.POST("/api/check-member/:phonenumber", controller.CheckMember)
        r.GET("/members", controller.GetMembers)
        r.GET("/member/:id", controller.GetMemberByID)
        r.PATCH("/member/:id", controller.UpdateMember)
@@ -52,8 +53,15 @@ func main() {
 
        // Receipt Rountes
        r.GET("/receipt", controller.GetReceipts)
+       r.POST("/receipt", controller.CreateReceipt)
 
-       r.GET("/table", controller.GetTablebyID)
+       // Coupon Rountes
+       r.POST("/api/check-coupon/:code", controller.CheckCoupon)
+
+       r.GET("/table", controller.GetTables)
+
+       r.GET("/booking/:id", controller.GetBookingByID)
+
    }
 
    r.GET("/", func(c *gin.Context) {

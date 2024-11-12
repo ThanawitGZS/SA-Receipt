@@ -39,19 +39,28 @@ func SetupDatabase() {
       &entity.Package{},
 	)
 
-   Receipt1 := entity.Receipt{BookingID: 1,Totalprice: 1000,CouponID: 1,MemberID: 1,EmployeeID: 1}
-   Receipt2 := entity.Receipt{BookingID: 2,Totalprice: 2000,CouponID: 1,MemberID: 3,EmployeeID: 2}
-   Receipt3 := entity.Receipt{BookingID: 3,Totalprice: 2500,CouponID: 2,MemberID: 2,EmployeeID: 1}
+   Pork := entity.Package{Name:"Pork",Price:249,Point: 3}
+   SeaFood := entity.Package{Name:"Sea-Food",Price:299,Point: 4}
+   Beef := entity.Package{Name:"Beef",Price:349,Point: 5}
 
-   Member1 := entity.Member{FirstName: "Tum",LastName: "A"}
-   Member2 := entity.Member{FirstName: "Tod",LastName: "B"}
-   Member3 := entity.Member{FirstName: "Toi",LastName: "C"}
+   TableStatus1 := entity.TableStatus{ Status: "Available"}
+   TableStatus2 := entity.TableStatus{ Status: "Reserved"}
+   TableStatus3 := entity.TableStatus{ Status: "Cleaning"}
+
+   Receipt1 := entity.Receipt{BookingID: 1,TotalPrice: 1000,CouponID: 1,MemberID: 1,EmployeeID: 1}
+   Receipt2 := entity.Receipt{BookingID: 2,TotalPrice: 2000,CouponID: 1,MemberID: 3,EmployeeID: 2}
+   Receipt3 := entity.Receipt{BookingID: 3,TotalPrice: 2500,CouponID: 2,MemberID: 2,EmployeeID: 1}
+
+   Guest := entity.Member{FirstName: "Guest",RankID: 1,PhoneNumber: " "}
+   Member1 := entity.Member{FirstName: "Tum",LastName: "A",RankID: 2,PhoneNumber: "0000000000"}
+   Member2 := entity.Member{FirstName: "Tod",LastName: "B",RankID: 3,PhoneNumber: "1111111111"}
+   Member3 := entity.Member{FirstName: "Toi",LastName: "C",RankID: 4,PhoneNumber: "2222222222"}
 
    employee1 := entity.Employee{FirstName:"Finn",LastName: "C",GenderID: 1}
    employee2 := entity.Employee{FirstName:"Fah",LastName: "D",GenderID: 2}
 
-   coupoun1 := entity.Coupon{Code: "DISCOUNT20"}
-   coupoun2 := entity.Coupon{Code: "DISCOUNT10"}
+   coupoun1 := entity.Coupon{Code: "DISCOUNT10",Discount: 10}
+   coupoun2 := entity.Coupon{Code: "DISCOUNT20",Discount: 20}
 
    GenderMale := entity.Gender{Name: "Male"}
    GenderFemale := entity.Gender{Name: "Female"}
@@ -59,30 +68,49 @@ func SetupDatabase() {
    PositionAdmin := entity.Position{Name: "Admin"}
    PositionManager := entity.Position{Name: "Manager"}
 
-   RankBronze := entity.Rank{Name: "Bronze", Discount: 0.03}
-   RankSilver := entity.Rank{Name: "Silver", Discount: 0.05}
-   RankGold := entity.Rank{Name: "Gold", Discount: 0.07}
+   RankNon := entity.Rank{Name: "Non", Discount: 0.00}
+   RankBronze := entity.Rank{Name: "Bronze", Discount: 0.03,PointToUpgrade: 0}
+   RankSilver := entity.Rank{Name: "Silver", Discount: 0.06,PointToUpgrade: 20}
+   RankGold := entity.Rank{Name: "Gold", Discount: 0.1,PointToUpgrade:40}
 
    Booking1 := entity.Booking{TableID: 1}
-   Booking2 := entity.Booking{TableID: 7}
-   Booking3 := entity.Booking{TableID: 11}
+   Booking2 := entity.Booking{TableID: 2,PackageID: 1,NumberOfCustomer: 3}
+   Booking3 := entity.Booking{TableID: 3,PackageID: 2,NumberOfCustomer: 4}
+   Booking4 := entity.Booking{TableID: 4,PackageID: 3,NumberOfCustomer: 2}
+   Booking5 := entity.Booking{TableID: 5}
+   Booking6 := entity.Booking{TableID: 6}
+   Booking7 := entity.Booking{TableID: 7}
+   Booking8 := entity.Booking{TableID: 8}
+   Booking9 := entity.Booking{TableID: 9}
+   Booking10 := entity.Booking{TableID: 10}
+   Booking11 := entity.Booking{TableID: 11}
+   Booking12 := entity.Booking{TableID: 12}
 
    TableFourSeat1 := entity.Table{TableType: "F1", TableStatusID: 1}
-   TableFourSeat2 := entity.Table{TableType: "F2", TableStatusID: 1}
-   TableFourSeat3 := entity.Table{TableType: "F3", TableStatusID: 1}
-   TableFourSeat4 := entity.Table{TableType: "F4", TableStatusID: 1}
-   TableFourSeat5 := entity.Table{TableType: "F5", TableStatusID: 1}
-   TableFourSeat6 := entity.Table{TableType: "F6", TableStatusID: 1}
+   TableFourSeat2 := entity.Table{TableType: "F2", TableStatusID: 2}
+   TableFourSeat3 := entity.Table{TableType: "F3", TableStatusID: 2}
+   TableFourSeat4 := entity.Table{TableType: "F4", TableStatusID: 2}
+   TableFourSeat5 := entity.Table{TableType: "F5", TableStatusID: 2}
+   TableFourSeat6 := entity.Table{TableType: "F6", TableStatusID: 2}
    TableSixSeat1 := entity.Table{TableType: "S1", TableStatusID: 1}
-   TableSixSeat2 := entity.Table{TableType: "S2", TableStatusID: 1}
-   TableSixSeat3 := entity.Table{TableType: "S3", TableStatusID: 1}
-   TableSixSeat4 := entity.Table{TableType: "S4", TableStatusID: 1}
+   TableSixSeat2 := entity.Table{TableType: "S2", TableStatusID: 3}
+   TableSixSeat3 := entity.Table{TableType: "S3", TableStatusID: 3}
+   TableSixSeat4 := entity.Table{TableType: "S4", TableStatusID: 3}
    TableEightSeat1 := entity.Table{TableType: "E1", TableStatusID: 1}
-   TableEightSeat2 := entity.Table{TableType: "E2", TableStatusID: 1}
+   TableEightSeat2 := entity.Table{TableType: "E2", TableStatusID: 2}
 
+   db.FirstOrCreate(&Pork, &entity.Package{Name:"Pork"})
+   db.FirstOrCreate(&SeaFood, &entity.Package{Name:"Sea-Food"})
+   db.FirstOrCreate(&Beef, &entity.Package{Name:"Beef"})
+
+   db.FirstOrCreate(&RankNon, &entity.Rank{Name: "Non", Discount: 0.00})
    db.FirstOrCreate(&RankBronze, &entity.Rank{Name: "Bronze", Discount: 0.03})
    db.FirstOrCreate(&RankSilver, &entity.Rank{Name: "Silver", Discount: 0.05})
    db.FirstOrCreate(&RankGold, &entity.Rank{Name: "Gold", Discount: 0.07})
+
+   db.FirstOrCreate(&TableStatus1, &entity.TableStatus{ Status: "Available"})
+   db.FirstOrCreate(&TableStatus2, &entity.TableStatus{ Status: "Reserved"})
+   db.FirstOrCreate(&TableStatus3, &entity.TableStatus{ Status: "Cleaning"})
 
    db.FirstOrCreate(&GenderMale, &entity.Gender{Name: "Male"})
    db.FirstOrCreate(&GenderFemale, &entity.Gender{Name: "Female"})
@@ -90,36 +118,46 @@ func SetupDatabase() {
    db.FirstOrCreate(&PositionAdmin, &entity.Position{Name: "Admin"})
    db.FirstOrCreate(&PositionManager, &entity.Position{Name: "Manger"})
    
-   db.FirstOrCreate(&Member1, &entity.Member{FirstName: "Tum",LastName: "A"})
-   db.FirstOrCreate(&Member2, &entity.Member{FirstName: "Tod",LastName: "B"})
-   db.FirstOrCreate(&Member3, &entity.Member{FirstName: "Toi",LastName: "B"})
+   db.FirstOrCreate(&Guest, &entity.Member{FirstName: "Guest",RankID: 1,PhoneNumber: "0"})
+   db.FirstOrCreate(&Member1, &entity.Member{FirstName: "Tum",LastName: "A",RankID: 2,PhoneNumber: "0000000000"})
+   db.FirstOrCreate(&Member2, &entity.Member{FirstName: "Tod",LastName: "B",RankID: 3,PhoneNumber: "1111111111"})
+   db.FirstOrCreate(&Member3, &entity.Member{FirstName: "Toi",LastName: "B",RankID: 4,PhoneNumber: "2222222222"})
 
-   db.FirstOrCreate(&TableFourSeat1, &entity.Table{TableType: "F1"})
-   db.FirstOrCreate(&TableFourSeat2, &entity.Table{TableType: "F2"})
-   db.FirstOrCreate(&TableFourSeat3, &entity.Table{TableType: "F3"})
-   db.FirstOrCreate(&TableFourSeat4, &entity.Table{TableType: "F4"})
-   db.FirstOrCreate(&TableFourSeat5, &entity.Table{TableType: "F5"})
-   db.FirstOrCreate(&TableFourSeat6, &entity.Table{TableType: "F6"})
-   db.FirstOrCreate(&TableSixSeat1, &entity.Table{TableType: "S1"})
-   db.FirstOrCreate(&TableSixSeat2, &entity.Table{TableType: "S2"})
-   db.FirstOrCreate(&TableSixSeat3, &entity.Table{TableType: "S3"})
-   db.FirstOrCreate(&TableSixSeat4, &entity.Table{TableType: "S4"})
-   db.FirstOrCreate(&TableEightSeat1, &entity.Table{TableType: "E1"})
-   db.FirstOrCreate(&TableEightSeat2, &entity.Table{TableType: "E2"})
+   db.FirstOrCreate(&TableFourSeat1, &entity.Table{TableType: "F1", TableStatusID: 1})
+   db.FirstOrCreate(&TableFourSeat2, &entity.Table{TableType: "F2", TableStatusID: 2})
+   db.FirstOrCreate(&TableFourSeat3, &entity.Table{TableType: "F3", TableStatusID: 2})
+   db.FirstOrCreate(&TableFourSeat4, &entity.Table{TableType: "F4", TableStatusID: 2})
+   db.FirstOrCreate(&TableFourSeat5, &entity.Table{TableType: "F5", TableStatusID: 2})
+   db.FirstOrCreate(&TableFourSeat6, &entity.Table{TableType: "F6", TableStatusID: 2})
+   db.FirstOrCreate(&TableSixSeat1, &entity.Table{TableType: "S1", TableStatusID: 1})
+   db.FirstOrCreate(&TableSixSeat2, &entity.Table{TableType: "S2", TableStatusID: 3})
+   db.FirstOrCreate(&TableSixSeat3, &entity.Table{TableType: "S3", TableStatusID: 3})
+   db.FirstOrCreate(&TableSixSeat4, &entity.Table{TableType: "S4", TableStatusID: 3})
+   db.FirstOrCreate(&TableEightSeat1, &entity.Table{TableType: "E1", TableStatusID: 1})
+   db.FirstOrCreate(&TableEightSeat2, &entity.Table{TableType: "E2", TableStatusID: 2})
    
    db.FirstOrCreate(&employee1, &entity.Employee{FirstName:"Finn",LastName: "C",GenderID: 1})
    db.FirstOrCreate(&employee2, &entity.Employee{FirstName:"Fah",LastName: "D",GenderID: 2})
    
-   db.FirstOrCreate(&Receipt1, &entity.Receipt{BookingID: 1,Totalprice: 1000,CouponID: 1,MemberID: 1,EmployeeID: 1})
-   db.FirstOrCreate(&Receipt2, &entity.Receipt{BookingID: 2,Totalprice: 2000,CouponID: 1,MemberID: 3,EmployeeID: 2})
-   db.FirstOrCreate(&Receipt3, &entity.Receipt{BookingID: 3,Totalprice: 2500,CouponID: 2,MemberID: 2,EmployeeID: 1})
+   db.FirstOrCreate(&Receipt1, &entity.Receipt{BookingID: 1,TotalPrice: 1000,CouponID: 1,MemberID: 1,EmployeeID: 1})
+   db.FirstOrCreate(&Receipt2, &entity.Receipt{BookingID: 2,TotalPrice: 2000,CouponID: 1,MemberID: 3,EmployeeID: 2})
+   db.FirstOrCreate(&Receipt3, &entity.Receipt{BookingID: 3,TotalPrice: 2500,CouponID: 2,MemberID: 2,EmployeeID: 1})
 
-   db.FirstOrCreate(&coupoun1 ,&entity.Coupon{Code: "DISCOUNT20"})
-   db.FirstOrCreate(&coupoun2 ,&entity.Coupon{Code: "DISCOUNT10"})
+   db.FirstOrCreate(&coupoun1 ,&entity.Coupon{Code: "DISCOUNT10",Discount: 10})
+   db.FirstOrCreate(&coupoun2 ,&entity.Coupon{Code: "DISCOUNT20",Discount: 20})
 
    db.FirstOrCreate(&Booking1, &entity.Booking{TableID: 1})
-   db.FirstOrCreate(&Booking2, &entity.Booking{TableID: 7})
-   db.FirstOrCreate(&Booking3, &entity.Booking{TableID: 11})
+   db.FirstOrCreate(&Booking2, &entity.Booking{TableID: 2,PackageID: 1,NumberOfCustomer: 3})
+   db.FirstOrCreate(&Booking3, &entity.Booking{TableID: 3,PackageID: 2,NumberOfCustomer: 4})
+   db.FirstOrCreate(&Booking4, &entity.Booking{TableID: 4,PackageID: 3,NumberOfCustomer: 2})
+   db.FirstOrCreate(&Booking5, &entity.Booking{TableID: 5})
+   db.FirstOrCreate(&Booking6, &entity.Booking{TableID: 6})
+   db.FirstOrCreate(&Booking7, &entity.Booking{TableID: 7})
+   db.FirstOrCreate(&Booking8, &entity.Booking{TableID: 8})
+   db.FirstOrCreate(&Booking9, &entity.Booking{TableID: 9})
+   db.FirstOrCreate(&Booking10, &entity.Booking{TableID: 10})
+   db.FirstOrCreate(&Booking11, &entity.Booking{TableID: 11})
+   db.FirstOrCreate(&Booking12, &entity.Booking{TableID: 12})
 
    hashedPassword, _ := HashPassword("12345")
 

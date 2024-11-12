@@ -1,8 +1,8 @@
 import { Link  } from 'react-router-dom';
-import { Card, Table, Col, Row, Statistic, Button, Divider , message } from 'antd';
+import { Card, Table, Col, Row, Statistic, Button , message } from 'antd';
 import { WalletOutlined, FileSyncOutlined, FileDoneOutlined, UserOutlined } from "@ant-design/icons";
 import { ReceiptInterface } from "../../../interfaces/Receipt";
-import { GetReceipts  } from "../../../services/https";
+import { GetReceipts , GetTablebys } from "../../../services/https";
 import { useState, useEffect } from "react";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 function Receipt() {
 
   const [receipt, setReceipt] = useState<ReceiptInterface[]>([]);
+  const [HoldValue, setHoldValue] = useState<number>(0);
   const [SuccessValue, setSuccessValue] = useState<number>(0);
   const [TotalPrice, setTotalPrice] = useState<number>(0);
 
@@ -40,6 +41,18 @@ function Receipt() {
     }
   };
 
+  const FetchHoldData = async () => {
+    try {
+      const res = await GetTablebys();  // ดึงข้อมูลการจอง (Booking)
+      const dataFromTable = res.data; // เข้าถึงข้อมูลจาก API
+      const reservedTables = dataFromTable.filter((item: { table_status_id: number}) => item.table_status_id === 2);
+      const countIDs = reservedTables.length;
+      setHoldValue(countIDs);    
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   const FetchTotalPrice = async () => {
     try {
       const res = await GetReceipts();
@@ -60,6 +73,7 @@ function Receipt() {
 
   useEffect(() => {
     getReceipts();
+    FetchHoldData();
     FetchSuccessData();
     FetchTotalPrice();
   }, []);
@@ -142,8 +156,11 @@ function Receipt() {
     {
       key: 'date_time',
       title: 'Date Time',
-      dataIndex: 'date',
-      render: (record) => <p>{dayjs(record).format("HH:mm : DD MMM YYYY")}</p>,
+      // dataIndex: 'date',
+      render: (record) => {
+        const date = record.CreatedAt;
+        return <p>{dayjs(date).format("HH:mm : DD MMM YYYY")}</p>;
+      },
     },
     {
       key: 'id',
@@ -163,7 +180,7 @@ function Receipt() {
     {
       key: 'CounponID',
       title: 'Coupon',
-      render: (record) => <>{record.Coupon?.code || "N/A"}</>,
+      render: (record) => <>{record.Coupon?.code || "ไม่มี"}</>,
     },
     {
       key: 'MemberID',
@@ -178,96 +195,12 @@ function Receipt() {
     },
   ];
 
-  // const data = [
-  //   {
-  //     id: '1',
-  //     booking_id: 'F1',
-  //     total_price: 399,
-  //     coupon: 'DC10',
-  //     member_id: 'Oat',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '2',
-  //     booking_id: 'F2',
-  //     total_price: 299,
-  //     coupon: 'DC15',
-  //     member_id: 'A',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '3',
-  //     booking_id: 'F4',
-  //     total_price: 199,
-  //     coupon: 'DC20',
-  //     member_id: 'C',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '4',
-  //     booking_id: 'F3',
-  //     total_price: 299,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '5',
-  //     booking_id: 'S1',
-  //     total_price: 701,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '6',
-  //     booking_id: 'S1',
-  //     total_price: 701,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '7',
-  //     booking_id: 'S1',
-  //     total_price: 701,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '8',
-  //     booking_id: 'S1',
-  //     total_price: 701,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  //   {
-  //     id: '9',
-  //     booking_id: 'S1',
-  //     total_price: 701,
-  //     coupon: 'DC20',
-  //     member_id: 'D',
-  //     employee_id: 'Tae',
-  //     date_time: '10/11/2000'
-  //   },
-  // ];
-
   return (
     <Row gutter={[16, 16]}>
       {/* Content Section */}
       <Col span={12}>
         <Card style={{ borderRadius: '20px', padding: '0px', width: '100%', height: '55vh' }}>
-          <h3 style={{ marginTop: '-3px' }}>Receipt History</h3>
+          <h2 style={{ marginTop: '-3px' }}>Receipt History</h2>
           <Table
             dataSource={receipt}
             columns={columns}
@@ -279,7 +212,7 @@ function Receipt() {
       {/* Button Section */}
       <Col span={12} >
               <Card style={{ borderRadius: '20px', width: '100%', height: '30vh' , marginBottom:'10px'}}>
-          <h3 style={{ marginTop: '-3px' }}>Daily List Summary</h3>
+          <h2 style={{ marginTop: '-3px' }}>Daily List Summary</h2>
           <Row
             style={{
               display: 'flex',
@@ -296,10 +229,10 @@ function Receipt() {
               >
                 <Statistic
                   title="กำลังดำเนินการ"
-                  value={5}
+                  value={HoldValue}
                   valueStyle={{ color: "black" }}
-                  prefix={<FileSyncOutlined />}
-                  suffix=""
+                  prefix={<FileSyncOutlined style={{ marginRight: '8px' }}/>}
+                  suffix={<span style={{ marginLeft: '8px' }}>รายการ</span>}
                 />
               </Card>
             </Col>
@@ -314,7 +247,8 @@ function Receipt() {
                   title="ทำรายการสำเร็จ"
                   value={SuccessValue}
                   valueStyle={{ color: "black" }}
-                  prefix={<FileDoneOutlined />}
+                  prefix={<FileDoneOutlined style={{ marginRight: '8px' }}/>}
+                  suffix={<span style={{ marginLeft: '8px' }}>รายการ</span>}
                 />
               </Card>
             </Col>

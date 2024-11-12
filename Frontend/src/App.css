@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
 }
 
@@ -44,6 +44,17 @@ body {
   color: #fff;
   background: #FF7D29;
   box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+
+.logo {
+  object-fit: contain;
+  height: 100px;
+  width: 100px;
+  border-radius: 5%;
+} */
+
+body {
+  margin: 0;
 }
 
 .logo {

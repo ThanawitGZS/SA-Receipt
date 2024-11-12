@@ -8,7 +8,7 @@ type Member struct{
 	gorm.Model
 	FirstName		string			
 	LastName		string			
-	PhoneNumber		string						
+	PhoneNumber		string			
 
 	// FK from Rank
 	RankID			uint
@@ -16,4 +16,6 @@ type Member struct{
 	// FK from Employee
 	EmployeeID		uint		
 	Employee		Employee	`gorm:"foreignKey: employee_id"`
+
+	Receipt			[]Receipt	`gorm:"foreignKey: member_id"`
 }
